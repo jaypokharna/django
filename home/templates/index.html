@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid black;
+  }
+</style>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Index Page</h1>
+
+  <table style="width:100%">
+    <tr>
+      <th>Sr. No.</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Can Vote</th>
+    </tr>
+    {%for i in people%}
+   
+    <tr>
+      <td>{{forloop.counter}}</td>
+      <td>{{i.name}}</td>
+      <td>{{i.age}}</td>
+      <td {%if i.age < 18 %} style="background-color: red;" {%else%} style="background-color: green;" {%endif%}></td>
+    </tr>
+    {%endfor%}
+
+  </table>
+
+
+</body>
+
+</html>
