@@ -25,5 +25,8 @@ def receipes(request):
         )
 
         return redirect('/vege/')
+    
+    query_set = Reci.objects.all()
+    context = {"receipes" : query_set}
 
-    return render(request,"receipes.html")
+    return render(request,"receipes.html",context)
