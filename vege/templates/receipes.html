@@ -23,15 +23,15 @@
       <h1 class="mx-auto">New Receipe</h1>
       <hr>
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Receipe Name</label>
+        <label class="form-label">Receipe Name</label>
         <input type="text" class="form-control" name="receipe_name" required>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Receipe Description</label>
+        <label class="form-label">Receipe Description</label>
         <textarea class="form-control" name="receipe_description" required></textarea>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Receipe Image</label>
+        <label class="form-label">Receipe Image</label>
         <input type="file" class="form-control" name="receipe_image" required>
       </div>
       <button type="submit" class="btn btn-success ">Add new receipe</button>
@@ -43,22 +43,21 @@
         <th>Receipe Name</th>
         <th>Receipe Description</th>
         <th>Receipe Image</th>
+        <th>Action</th>
       </tr>
       {%for i in receipes%}
-
       <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.receipe_name}}</td>
-        <td>{{i.receipe_description}}</td>
-        <td>{{i.receipe_image}}</td>
+        <td style="text-align : center;">{{forloop.counter}}</td>
+        <td style="text-align : center;">{{i.receipe_name}}</td>
+        <td style="text-align : center;">{{i.receipe_description}}</td>
+        <td style="text-align : center;"><img src="/media/{{i.receipe_image}}" alt="" style="height: 100px;"></td>
+        <td style="text-align : center;"><a href="/delete_item/{{i.id}}/" class="btn btn-danger mb-3 w-7">Delete</a>
+          <a href="/delete_item/{{i.id}}/" class="btn btn-success">Update</a></td>
+        
       </tr>
       {%endfor%}
 
     </table>
-
-    
-
   </div>
 </body>
-
 </html>

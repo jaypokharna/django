@@ -1,5 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from .models import *
+from django.http import HttpResponse    
 
 # Create your views here.
 
@@ -26,7 +27,19 @@ def receipes(request):
 
         return redirect('/vege/')
     
-    query_set = Reci.objects.all()
-    context = {"receipes" : query_set}
+    queryset = Reci.objects.all()
+    context = {"receipes" : queryset}
 
     return render(request,"receipes.html",context)
+
+
+def delete_item(request,id):
+    print(id)
+    queryset = Reci.objects.get(id=id)
+    queryset.delete()
+    return redirect('/vege/')
+
+def update_item(request,id):
+    queryset = Reci.objects.get(id=id)
+    context = {"receipe" : queryset}
+    return render(request,"update_item.html",context)
