@@ -28,18 +28,44 @@ def receipes(request):
         return redirect('/vege/')
     
     queryset = Reci.objects.all()
+
+    if request.GET.get('search'):
+        queryset = queryset.filter(receipe_name__icontains = request.GET.get('search'))
+        print(queryset)
+
     context = {"receipes" : queryset}
 
     return render(request,"receipes.html",context)
 
 
+
 def delete_item(request,id):
     print(id)
-    queryset = Reci.objects.get(id=id)
-    queryset.delete()
+    alibaba = Reci.objects.get(id=id)
+    alibaba.delete()
     return redirect('/vege/')
+
 
 def update_item(request,id):
     queryset = Reci.objects.get(id=id)
-    context = {"receipe" : queryset}
+
+    if request.method == "POST":
+        data = request.POST
+
+        queryset.receipe_name=data.get('receipe_name')
+        queryset.receipe_description=data.get('receipe_description')
+
+        receipe_image = request.FILES.get('receipe_image')
+        if receipe_image:
+            queryset.receipe_image=receipe_image
+
+        queryset.save()
+
+        return redirect('/vege/')
+
+
+    context = {"receipe" : queryset }
     return render(request,"update_item.html",context)
+
+def printhelloworld():
+    pass

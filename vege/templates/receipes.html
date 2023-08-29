@@ -37,14 +37,28 @@
       <button type="submit" class="btn btn-success ">Add new receipe</button>
     </form>
 
-    <table style="width:100%" class="mt-5">
-      <tr>
-        <th>Sr. No.</th>
-        <th>Receipe Name</th>
-        <th>Receipe Description</th>
-        <th>Receipe Image</th>
-        <th>Action</th>
-      </tr>
+    <div class="search mt-5 ">
+      <div class="mx-auto col-6"  style="text-align: center;">
+        <form class="mx-auto card p-3 shadow-lg" >
+          <label class="form-label">Search Receipe</label>
+        <div class="mb-3" style="display: flex;">
+          <input type="text" class="form-control" name="search">
+          <button type="submit" class="btn btn-primary" style="margin-left: 9px;">NoSearch</button>
+        </div>
+      </form>
+      </div>
+    </div>
+
+    <table style="width:100%" class="mt-3 mb-5">
+      <thead>
+        <tr>
+          <th style="text-align : center;">Sr. No.</th>
+          <th style="text-align : center;">Receipe Name</th>
+          <th style="text-align : center;">Receipe Description</th>
+          <th style="text-align : center;">Receipe Image</th>
+          <th style="text-align : center;">Action</th>
+        </tr>
+      </thead>
       {%for i in receipes%}
       <tr>
         <td style="text-align : center;">{{forloop.counter}}</td>
@@ -52,7 +66,7 @@
         <td style="text-align : center;">{{i.receipe_description}}</td>
         <td style="text-align : center;"><img src="/media/{{i.receipe_image}}" alt="" style="height: 100px;"></td>
         <td style="text-align : center;"><a href="/delete_item/{{i.id}}/" class="btn btn-danger mb-3 w-7">Delete</a>
-          <a href="/delete_item/{{i.id}}/" class="btn btn-success">Update</a></td>
+          <a href="/update_item/{{i.id}}/" class="btn btn-success">Update</a></td>
         
       </tr>
       {%endfor%}
