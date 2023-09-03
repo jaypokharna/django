@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <title>Signup</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+      <img src="/media/ico.png" width="30" height="30" class="d-inline-block align-top display-1 ml-3" style="margin-left: 15px;" alt="">
+      Master Chef
+    </a>
+    {% if request.user.is_authenticated %}
+    <a href="/logout/" class="btn btn-outline-danger my-2 my-sm-0" style="margin-right: 15px; visibility: visible; " type="submit">Log Out</a>
+    {% else %}
+    <a href="/login/" class="btn btn-outline-danger my-2 my-sm-0" style="margin-right: 15px; visibility: hidden; " type="submit">Losg Out</a>
+    {% endif %}
+  </nav>
+
+
+  <div class="container mt-5">
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h1 class="mx-auto">Signup</h1>
+      {% if messages %}
+      <div class="alert alert-primary" role="alert">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="form-floating mb-3">
+        <input type="text" required id="fname" class="form-control" name="fname" placeholder="fname">
+        <label class="form-label" for="fname">First Name</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" required id="lname" class="form-control" name="lname" placeholder="lname">
+        <label class="form-label" for="lname">Last Name</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" required id="uname" class="form-control" name="uname" placeholder="uname Address">
+        <label class="form-label" for="uname">Username</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="password" required id="password" class="form-control" name="password" placeholder="Password">
+        <label class="form-label" for="password">Password</label>
+      </div>
+      <button type="submit" class="btn btn-primary ">Signup</button>
+      <p class="mt-3">Already a user ? <a href="http://127.0.0.1:8000/login/">Login</a></p>
+    </form>
+  </div>
+
+</body>
+
+</html>

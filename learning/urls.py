@@ -21,17 +21,19 @@ from vege.views import *
 from django.conf.urls.static import static 
 from django.conf import settings 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from login.views import *
+# from login2.views import *
 
 urlpatterns = [
-    path('',login,name="login"),
+    path('',login_page,name="login"),
+    path('home/',home,name="home"),
     path('about/',about,name="about"),
     path('contact/',contact,name="contact"),
     path('vege/',receipes,name="receipes"),
     path('delete_item/<id>/',delete_item,name="delete_item"),
     path('update_item/<id>/',update_item,name="update_item"),
-    path('login/',login,name="login"),
+    path('login/',login_page,name="login"),
     path('signup/',signup,name="signup"),
+    path('logout/',logout_page,name="logout_page"),
     path('admin/', admin.site.urls)
     
 ]

@@ -1,9 +1,13 @@
 from django.shortcuts import render,redirect,HttpResponse
 from .models import *
-from django.http import HttpResponse    
-
+from django.http import HttpResponse   
+from django.contrib.auth.models import User 
+from django.contrib import messages
+from django.contrib.auth import authenticate , login , logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required(login_url = "/login/")
 def receipes(request):
     if request.method == "POST":
 
@@ -37,15 +41,14 @@ def receipes(request):
 
     return render(request,"receipes.html",context)
 
-
-
+@login_required(login_url = "/login/")
 def delete_item(request,id):
     print(id)
     alibaba = Reci.objects.get(id=id)
     alibaba.delete()
     return redirect('/vege/')
 
-
+@login_required(login_url = "/login/")
 def update_item(request,id):
     queryset = Reci.objects.get(id=id)
 
@@ -67,5 +70,55 @@ def update_item(request,id):
     context = {"receipe" : queryset }
     return render(request,"update_item.html",context)
 
-def printhelloworld():
-    pass
+def login_page(request):
+    
+    if request.method == "POST":
+
+        uname = request.POST.get("uname")
+        password = request.POST.get("password")
+
+        if not User.objects.filter(username = uname):
+            messages.info(request,"Invalid Username")
+            return redirect("/login/")
+        
+        user = authenticate(username = uname , password = password)
+
+        if user is None:
+            messages.info(request , "Wrong Password")
+            return redirect("/login/")
+        else:
+            login(request , user)
+            return redirect("/vege/")
+        
+
+    return render(request,"login.html")
+
+def signup(request):  # sourcery skip: last-if-guard
+    if request.method == "POST":
+        
+        user = User.objects.filter(username = request.POST.get("uname"))
+
+        if user.exists():
+            messages.info(request, "Username already taken")
+            return redirect("/signup/")
+
+        user = User.objects.create(
+            first_name = request.POST.get("fname"),
+            last_name = request.POST.get("lname"),
+            username = request.POST.get("uname")
+        )
+        print(request.POST.get("password"))
+
+        user.set_password(request.POST.get('password'))
+        user.save()
+        messages.info(request,"Account created successfully")
+
+        return redirect("/signup/")
+
+    return render(request,"signup.html")
+
+
+def logout_page(request):
+    logout(request)
+    return redirect("/login/")
+
