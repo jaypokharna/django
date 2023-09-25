@@ -5,6 +5,12 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.db.models import Q,Sum
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 # Create your views here.
 
 @login_required(login_url = "/login/")
@@ -90,7 +96,6 @@ def login_page(request):
             login(request , user)
             return redirect("/vege/")
         
-
     return render(request,"login.html")
 
 def signup(request):  # sourcery skip: last-if-guard
@@ -117,8 +122,62 @@ def signup(request):  # sourcery skip: last-if-guard
 
     return render(request,"signup.html")
 
-
 def logout_page(request):
     logout(request)
-    return redirect("/login/")
+    return redirect("/login/")  
 
+def get_students(request):
+
+    queryset = Student.objects.all()
+
+    # print(ranks)
+
+    if request.GET.get('search'):
+        search = request.GET.get('search')
+        # queryset = queryset.filter(student_name__icontains = search )
+        queryset = queryset.filter(
+
+            Q(student_name__icontains = search) |
+            Q(department__department__icontains = search) |
+            Q(student_id__student_id__icontains = search) |
+            Q(student_email__icontains = search) |
+            Q(student_age__icontains = search)
+         )
+
+        paginator = Paginator(queryset, 10)  # Show 25 contacts per page.
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        return render(request, "report/report.html", {"queryset": page_obj,"search":search})
+    
+    else:
+        paginator = Paginator(queryset, 10)  # Show 25 contacts per page.
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        
+        return render(request, "report/report.html", {"queryset": page_obj})
+    
+from vege.models import *
+
+# One way of checking the rank - Dynamically generating rank everytime when you click on student_id
+# def see_marks(request,student_id):
+#     queryset = SubjectMarks.objects.filter(student__student_id__student_id = student_id)
+#     total = queryset.aggregate(total=Sum('marks'))
+#     current_rank = -1
+#     ranks = Student.objects.annotate(marks=Sum('studentmarks__marks')).order_by('-marks','-student_age')
+#     i=1
+#     for rank in ranks:
+#         if student_id == rank.student_id.student_id:
+#             current_rank = i
+#             break
+#         else:
+#             i+=1
+
+#     return render(request , 'report/checkresult.html',context={'queryset' : queryset,'total':total,'rank':current_rank})
+
+def see_marks(request,student_id):
+   
+    queryset = SubjectMarks.objects.filter(student__student_id__student_id = student_id)
+    total = queryset.aggregate(Sum('marks'))
+    print(queryset)
+    
+    return render(request , 'report/checkresult.html',context={'queryset' : queryset,'total':total})
