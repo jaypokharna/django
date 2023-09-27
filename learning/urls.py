@@ -24,18 +24,19 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # from login2.views import *
 
 urlpatterns = [
-    path('',login_page,name="login"),
+    path('',home,name="home"),
     path('home/',home,name="home"),
     path('about/',about,name="about"),
     path('contact/',contact,name="contact"),
     path('vege/',receipes,name="receipes"),
-    path('delete_item/<id>/',delete_item,name="delete_item"),
-    path('update_item/<id>/',update_item,name="update_item"),
+    path('delete_item/<slug>/',delete_item,name="delete_item"),
+    path('update_item/<slug>/',update_item,name="update_item"),
     path('login/',login_page,name="login"),
     path('signup/',signup,name="signup"),
     path('logout/',logout_page,name="logout_page"),
     path('report/',get_students,name="get_students"),
     path('see_marks/<student_id>/',see_marks ,name="see_marks"),
+    path('send_email/',send_email ,name="send_email"),
     path('admin/', admin.site.urls)
     
 ]

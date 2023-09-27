@@ -80,8 +80,8 @@
         <td style="text-align : center;">{{i.receipe_description}}</td>
         <td style="text-align : center;"><img src="/media/{{i.receipe_image}}" alt="" style="height: 100px;"></td>
         <td style="text-align : center;">
-          <a href="/delete_item/{{i.id}}/" class="btn btn-danger">Delete</a>
-          <a href="/update_item/{{i.id}}/" class="btn btn-success">Update</a></td>
+          <a href="/delete_item/{{i.slug}}/" class="btn btn-danger">Delete</a>
+          <a href="/update_item/{{i.slug}}/" class="btn btn-success">Update</a></td>
         
       </tr>
       {%endfor%}

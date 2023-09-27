@@ -19,7 +19,7 @@ admin.site.register(SubjectMarks,SubjectMarksAdmin)
 
 class StudentRankAdmin(admin.ModelAdmin):
 
-    list_display = ['student','student_rank','date_of_report_card_generation']
+    list_display = ['student','student_rank','total_marks','date_of_report_card_generation']
 
     ordering = ['-student_rank']
 

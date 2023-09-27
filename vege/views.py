@@ -23,9 +23,9 @@ def receipes(request):
         receipe_description = data.get('receipe_description')
         receipe_image = request.FILES.get('receipe_image')
 
-        print(receipe_name)
-        print(receipe_description)
-        print(receipe_image)
+        # print(receipe_name)
+        # print(receipe_description)
+        # print(receipe_image)
 
         Reci.objects.create(
 
@@ -41,22 +41,22 @@ def receipes(request):
 
     if request.GET.get('search'):
         queryset = queryset.filter(receipe_name__icontains = request.GET.get('search'))
-        print(queryset)
+        # print(queryset)
 
     context = {"receipes" : queryset}
 
     return render(request,"receipes.html",context)
 
 @login_required(login_url = "/login/")
-def delete_item(request,id):
-    print(id)
-    alibaba = Reci.objects.get(id=id)
+def delete_item(request,slug): 
+    # print(id)
+    alibaba = Reci.objects.get(slug=slug)
     alibaba.delete()
     return redirect('/vege/')
 
 @login_required(login_url = "/login/")
-def update_item(request,id):
-    queryset = Reci.objects.get(id=id)
+def update_item(request,slug):
+    queryset = Reci.objects.get(slug=slug)
 
     if request.method == "POST":
         data = request.POST
@@ -72,7 +72,6 @@ def update_item(request,id):
 
         return redirect('/vege/')
 
-
     context = {"receipe" : queryset }
     return render(request,"update_item.html",context)
 
@@ -83,11 +82,11 @@ def login_page(request):
         uname = request.POST.get("uname")
         password = request.POST.get("password")
 
-        if not User.objects.filter(username = uname):
+        if not User.objects.filter(phone_number = uname):
             messages.info(request,"Invalid Username")
             return redirect("/login/")
         
-        user = authenticate(username = uname , password = password)
+        user = authenticate(phone_number = uname , password = password)
 
         if user is None:
             messages.info(request , "Wrong Password")
@@ -101,7 +100,7 @@ def login_page(request):
 def signup(request):  # sourcery skip: last-if-guard
     if request.method == "POST":
         
-        user = User.objects.filter(username = request.POST.get("uname"))
+        user = User.objects.filter(phone_number = request.POST.get("uname"))
 
         if user.exists():
             messages.info(request, "Username already taken")
@@ -110,9 +109,9 @@ def signup(request):  # sourcery skip: last-if-guard
         user = User.objects.create(
             first_name = request.POST.get("fname"),
             last_name = request.POST.get("lname"),
-            username = request.POST.get("uname")
+            phone_number = request.POST.get("uname")
         )
-        print(request.POST.get("password"))
+        # print(request.POST.get("password"))
 
         user.set_password(request.POST.get('password'))
         user.save()
@@ -178,6 +177,16 @@ def see_marks(request,student_id):
    
     queryset = SubjectMarks.objects.filter(student__student_id__student_id = student_id)
     total = queryset.aggregate(Sum('marks'))
-    print(queryset)
+    # print(queryset)
     
     return render(request , 'report/checkresult.html',context={'queryset' : queryset,'total':total})
+
+
+
+
+
+
+
+
+
+# r_pokharana@yahoo.com
