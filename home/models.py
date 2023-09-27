@@ -1,13 +1,7 @@
 from django.db import models
-
+from django.db.models.signals import post_save,pre_save
+from django.dispatch import receiver
 # Create your models here.
-
-class Student(models.Model):
-    name = models.CharField(max_length=100)
-    phone = models.IntegerField()
-    email = models.TextField()
-    address = models.TextField(null=True , blank=True)
-    
 
 class Car(models.Model):
     cname = models.CharField(max_length=50)
@@ -15,3 +9,12 @@ class Car(models.Model):
 
     def __str__(self) -> int:
         return self.cname
+    
+    # class Meta:
+    #     ordering = ['cname']
+    
+@receiver(pre_save , sender = Car)
+def call_car_api(sender , instance , **kwargs):
+
+    print("CAR OBJECT CREATED")
+    print(f"Sender - {sender} \nInstance - {instance} \nKwargs - {kwargs}")

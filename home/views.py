@@ -1,10 +1,15 @@
+import random
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .util import send_email_to_client,send_email_with_attachment
 from django.conf import settings
+from .models import *
+import time
 # Create your views here.
 
 def home(request):
+
+    Car.objects.create(cname = f"Ferrari - {random.randint(0,100)}")
 
     if request.method == "POST":
         print("Receiving Data")
